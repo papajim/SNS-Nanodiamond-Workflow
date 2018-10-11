@@ -7,18 +7,17 @@
     <site handle="local" arch="x86_64" os="LINUX">
     </site>
 
-    <site handle="hopper" arch="x86_64" os="LINUX">
-        <grid type="gt5" contact="hoppergrid.nersc.gov/jobmanager" scheduler="Fork" jobtype="auxillary"/>
-        <grid type="gt5" contact="hoppergrid.nersc.gov/jobmanager-pbs" scheduler="PBS" jobtype="compute"/>
-        <directory type="shared-scratch" path="/scratch/scratchdirs/vlynch">
-            <file-server operation="all" url="gsiftp://hoppergrid.nersc.gov/scratch/scratchdirs/vlynch"/>
+    <site handle="cori" arch="x86_64" os="LINUX">
+        <grid type="gt5" contact="corigrid.nersc.gov/jobmanager" scheduler="Fork" jobtype="auxillary"/>
+        <grid type="gt5" contact="corigrid.nersc.gov/jobmanager-slurm" scheduler="PBS" jobtype="compute"/>
+        <directory type="shared-scratch" path="/global/cscratch1/sd/papajim">
+            <file-server operation="all" url="gsiftp://corigrid.nersc.gov/global/cscratch1/sd/papajim"/>
         </directory>
-        <directory type="shared-storage" path="/project/projectdirs/m1503/pegasus">
-            <file-server operation="all" url="gsiftp://hoppergrid.nersc.gov/project/projectdirs/m1503/pegasus" />
+        <directory type="shared-storage" path="/project/projectdirs/m2187/papajim/sns-wf-test">
+            <file-server operation="all" url="gsiftp://corigrid.nersc.gov/project/projectdirs/m2187/papajim/sns-wf-test" />
         </directory>
-        <profile namespace="env" key="PEGASUS_HOME">/project/projectdirs/m1503/pegasus/pegasus-4.4.0</profile>
-        <profile namespace="globus" key="project">m1503</profile>
+        <profile namespace="env" key="PEGASUS_HOME">/project/projectdirs/m2187/sns-software/pegasus-4.9.0dev</profile>
+        <profile namespace="globus" key="project">m2187</profile>
         <profile namespace="globus" key="queue">regular</profile>
-        <profile namespace="condor" key="periodic_remove">False</profile>
     </site>
 </sitecatalog>

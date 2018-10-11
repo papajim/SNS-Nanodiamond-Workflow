@@ -1,38 +1,43 @@
 tr namd {
-    site hopper {
-        pfn "/usr/common/usg/namd/2.9/bin/namd2"
+    site cori {
+        #pfn "/global/project/projectdirs/m2187/papajim/sns-software/NAMD_2.12_CRAY-XC-intel-mpi/namd2"
+        pfn "/usr/common/software/namd/2.12/haswell/NAMD_2.12_CRAY-XC-ugni/namd2"
         arch "x86_64"
         os "linux"
         type "INSTALLED"
         profile pegasus "exitcode.successmsg" "End of program"
+        profile globus "jobtype" "mpi"
     }
 }
 
 tr amber::ptraj {
-    site hopper {
+    site cori {
         pfn "/usr/common/usg/amber/14/bin/cpptraj"
         arch "x86_64"
         os "linux"
         type "INSTALLED"
+        profile globus "jobtype" "single"
     }
 }
 
 tr sassena {
-    site hopper {
-        pfn "/global/project/projectdirs/m1503/camm/sassena-v1.4.1/builds/head/sassena"
+    site cori {
+        pfn "/global/project/projectdirs/m2187/papajim/sns-software/Sassena_1.42_cout/bin/sassena"
         arch "x86_64"
         os "linux"
         type "INSTALLED"
         profile pegasus "exitcode.successmsg" "Successfully finished..."
+        profile globus "jobtype" "mpi"
     }
 }
 
 tr tar {
-    site hopper {
+    site cori {
         pfn "/bin/tar"
         arch "x86_64"
         os "linux"
         type "INSTALLED"
+        profile globus "jobtype" "single"
     }
 }
 

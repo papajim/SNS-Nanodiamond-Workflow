@@ -2,6 +2,7 @@
 import os
 import sys
 import string
+from datetime import datetime
 from ConfigParser import ConfigParser
 from Pegasus.DAX3 import *
 
@@ -66,7 +67,8 @@ class RefinementWorkflow(object):
         kw = {
             "epsilon": "%10.6f" % (-0.01 * float(epsilon)),
         }
-        format_template("8ND_8RNA_epsilon.xml", path, **kw)
+        #format_template("8ND_8RNA_epsilon.xml", path, **kw)
+        format_template("epsilon.xml", path, **kw)
         self.add_replica(name, path)
 
     def generate_eq_conf(self, epsilon, parameters):
@@ -146,7 +148,8 @@ class RefinementWorkflow(object):
 
     def generate_workflow(self):
         "Generate a workflow (DAX, config files, and replica catalog)"
-        dax = ADAG("refinement")
+        ts = datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
+        dax = ADAG("refinement-%s" % ts)
 
         # These are all the global input files for the workflow
         sassena_pdb = File(self.sassena_pdb)
@@ -168,8 +171,8 @@ class RefinementWorkflow(object):
         untarjob.uses(sassena_db, link=Link.INPUT)
         untarjob.uses(incoherent_db, link=Link.OUTPUT, transfer=False)
         untarjob.uses(coherent_db, link=Link.OUTPUT, transfer=False)
-        untarjob.profile("globus", "jobtype", "single")
-        untarjob.profile("globus", "maxwalltime", "1")
+        #untarjob.profile("globus", "jobtype", "single")
+        untarjob.profile("globus", "maxtime", "5")
         untarjob.profile("globus", "count", "1")
         dax.addJob(untarjob)
 
@@ -222,9 +225,9 @@ class RefinementWorkflow(object):
             eqjob.uses(eq_coord, link=Link.OUTPUT, transfer=False)
             eqjob.uses(eq_xsc, link=Link.OUTPUT, transfer=False)
             eqjob.uses(eq_vel, link=Link.OUTPUT, transfer=False)
-            eqjob.profile("globus", "jobtype", "mpi")
-            eqjob.profile("globus", "maxwalltime", "360")
-            eqjob.profile("globus", "count", "240")
+            #eqjob.profile("globus", "jobtype", "mpi")
+            eqjob.profile("globus", "maxtime", "480")
+            eqjob.profile("globus", "count", "512")
             dax.addJob(eqjob)
 
             # Production job
@@ -239,9 +242,9 @@ class RefinementWorkflow(object):
             prodjob.uses(eq_xsc, link=Link.INPUT)
             prodjob.uses(eq_vel, link=Link.INPUT)
             prodjob.uses(prod_dcd, link=Link.OUTPUT, transfer=True)
-            prodjob.profile("globus", "jobtype", "mpi")
-            prodjob.profile("globus", "maxwalltime", "5760")
-            prodjob.profile("globus", "count", "240")
+            #prodjob.profile("globus", "jobtype", "mpi")
+            prodjob.profile("globus", "maxtime", "1440")
+            prodjob.profile("globus", "count", "512")
             dax.addJob(prodjob)
             dax.depends(prodjob, eqjob)
 
@@ -253,8 +256,8 @@ class RefinementWorkflow(object):
             ptrajjob.uses(ptraj_conf, link=Link.INPUT)
             ptrajjob.uses(prod_dcd, link=Link.INPUT)
             ptrajjob.uses(ptraj_dcd, link=Link.OUTPUT, transfer=True)
-            ptrajjob.profile("globus", "jobtype", "single")
-            ptrajjob.profile("globus", "maxwalltime", "60")
+            #ptrajjob.profile("globus", "jobtype", "single")
+            ptrajjob.profile("globus", "maxtime", "60")
             ptrajjob.profile("globus", "count", "1")
             dax.addJob(ptrajjob)
             dax.depends(ptrajjob, prodjob)
@@ -267,9 +270,9 @@ class RefinementWorkflow(object):
             incojob.uses(incoherent_db, link=Link.INPUT)
             incojob.uses(sassena_pdb, link=Link.INPUT)
             incojob.uses(fqt_incoherent, link=Link.OUTPUT, transfer=True)
-            incojob.profile("globus", "jobtype", "mpi")
-            incojob.profile("globus", "maxwalltime", "360")
-            incojob.profile("globus", "count", "120")
+            #incojob.profile("globus", "jobtype", "mpi")
+            incojob.profile("globus", "maxtime", "480")
+            incojob.profile("globus", "count", "512")
             dax.addJob(incojob)
             dax.depends(incojob, ptrajjob)
             dax.depends(incojob, untarjob)
@@ -283,7 +286,7 @@ class RefinementWorkflow(object):
 #            cojob.uses(sassena_pdb, link=Link.INPUT)
 #            cojob.uses(fqt_coherent, link=Link.OUTPUT, transfer=True)
 #            cojob.profile("globus", "jobtype", "mpi")
-#            cojob.profile("globus", "maxwalltime", "360")
+#            cojob.profile("globus", "maxtime", "360")
 #            cojob.profile("globus", "count", "400")
 #            dax.addJob(cojob)
 #            dax.depends(cojob, prodjob)

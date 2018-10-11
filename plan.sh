@@ -1,7 +1,7 @@
 #!/bin/bash
 
-SITE=hopper
-OUTPUT_SITE=hopper
+SITE=cori
+OUTPUT_SITE=cori
 
 if [ $# -ne 1 ]; then
     echo "Usage: $0 WORKFLOW_DIR"
@@ -39,4 +39,5 @@ pegasus-plan \
     --sites $SITE \
     --output-site $OUTPUT_SITE \
     --cleanup leaf \
+    --submit
 

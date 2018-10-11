@@ -58,10 +58,10 @@
             </average>
             <signal>
               <file>{output}</file>
-              <fqt>true</fqt>
-              <fq0>true</fq0>
-              <fq>true</fq>
-              <fq2>true</fq2>
+              <fqt>1</fqt>
+              <fq0>1</fq0>
+              <fq>1</fq>
+              <fq2>1</fq2>
             </signal>
         </scattering>
     <database>
