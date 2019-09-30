@@ -32,7 +32,7 @@ Usage
     
 4. Get NERSC grid proxy using:
 
-    $ myproxy-logon -s nerscca.nersc.gov:7512 -t 720 -T -l YOUR_NERSC_USERNAME
+    $ myproxy-logon -s nerscca.nersc.gov:7512 -t 72 -T -l YOUR_NERSC_USERNAME
 
 5. Follow output of plan.sh to submit workflow
 
